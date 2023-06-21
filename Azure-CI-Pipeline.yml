@@ -10,7 +10,8 @@ pool:
   name: SelfHostedAgentPool
   demands: maven
 
-- task: Maven@4
+steps:
+  - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'clean package'
@@ -25,14 +26,14 @@ pool:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-
-- task: CopyFiles@2
+  
+  - task: CopyFiles@2
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '**/*.war'
     TargetFolder: '$(build.artifactstagingdirectory)'
-
-- task: PublishBuildArtifacts@1
+  
+  - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
